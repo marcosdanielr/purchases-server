@@ -5,8 +5,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { auth } from 'express-oauth2-jwt-bearer';
 import { promisify } from 'node:util';
+import { GetVerificationKey, expressjwt } from 'express-jwt';
+import { expressJwtSecret } from 'jwks-rsa';
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
@@ -24,10 +25,16 @@ export class AuthorizationGuard implements CanActivate {
     const res = httpContext.getResponse();
 
     const checkJWT = promisify(
-      auth({
-        issuerBaseURL: this.AUTH0_DOMAIN,
+      expressjwt({
+        secret: expressJwtSecret({
+          cache: true,
+          rateLimit: true,
+          jwksRequestsPerMinute: 5,
+          jwksUri: `${this.AUTH0_DOMAIN}.well-known/jwks.json`,
+        }) as GetVerificationKey,
         audience: this.AUTH0_AUDIENCE,
-        tokenSigningAlg: 'RS256',
+        issuer: this.AUTH0_DOMAIN,
+        algorithms: ['RS256'],
       }),
     );
 
@@ -35,6 +42,9 @@ export class AuthorizationGuard implements CanActivate {
       await checkJWT(req, res);
       return true;
     } catch (error) {
+      console.log({
+        url: `${this.AUTH0_DOMAIN}.well.know/jwks.json`,
+      });
       throw new UnauthorizedException(error);
     }
   }
