@@ -15,8 +15,23 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Purchase {
+  id: ID!
+  status: PurchaseStatus!
+  updatedAt: DateTime!
+  product: Product!
+}
+
+"""Available purchase status"""
+enum PurchaseStatus {
+  PENDING
+  APPROVED
+  FAILED
+}
+
 type Query {
   products: [Product!]!
+  purchases: [Purchase!]!
 }
 
 type Mutation {
