@@ -18,3 +18,11 @@ scalar DateTime
 type Query {
   products: [Product!]!
 }
+
+type Mutation {
+  createProduct(data: CreateProductInput!): Product!
+}
+
+input CreateProductInput {
+  title: String!
+}
