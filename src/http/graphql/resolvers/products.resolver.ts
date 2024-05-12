@@ -1,16 +1,16 @@
-import { PrismaService } from '../../../database/prisma/prisma.service';
 import { Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { AuthorizationGuard } from '../../auth/authorization.guard';
 import { Product } from '../models/product';
+import { ProductsServices } from 'src/services/products.services';
 
 @Resolver()
 export class ProductsResolver {
-  constructor(private prisma: PrismaService) {}
+  constructor(private productsServices: ProductsServices) {}
 
   @Query(() => [Product])
   @UseGuards(AuthorizationGuard)
   async products() {
-    return this.prisma.product.findMany();
+    return this.productsServices.listAllProducts();
   }
 }
