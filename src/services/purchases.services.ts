@@ -19,6 +19,17 @@ export class PurchasesService {
     });
   }
 
+  listAllPurchasesFromCustomer(customerId: string): Promise<Purchase[]> {
+    return this.prisma.purchase.findMany({
+      where: {
+        customerId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
   async createPurchase({
     customerId,
     productId,

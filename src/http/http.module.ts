@@ -11,6 +11,7 @@ import { PurchasesResolver } from './graphql/resolvers/purchases.resolver';
 import { ProductsService } from 'src/services/products.services';
 import { PurchasesService } from 'src/services/purchases.services';
 import { CustomersService } from 'src/services/customers.services';
+import { CustomersResolver } from './graphql/resolvers/customers.resolver';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CustomersService } from 'src/services/customers.services';
     // Resolvers
     ProductsResolver,
     PurchasesResolver,
+    CustomersResolver,
 
     // Services
     ProductsService,

@@ -29,9 +29,16 @@ enum PurchaseStatus {
   FAILED
 }
 
+type Customer {
+  id: ID!
+  Purchases: [Purchase!]!
+  purchases: [Purchase!]!
+}
+
 type Query {
   products: [Product!]!
   purchases: [Purchase!]!
+  me: Customer!
 }
 
 type Mutation {
