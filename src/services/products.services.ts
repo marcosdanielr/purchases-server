@@ -8,7 +8,7 @@ interface CreateProductParams {
 }
 
 @Injectable()
-export class ProductsServices {
+export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
   listAllProducts(): Promise<Product[]> {
